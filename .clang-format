@@ -1,0 +1,15 @@
+# Formatting rules — auto-format / check with clang-format.
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+Standard: c++20
+ColumnLimit: 0
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+PointerAlignment: Left
+NamespaceIndentation: All
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+FixNamespaceComments: true
+...
