@@ -1,50 +1,18 @@
-# diamo-world — Project Conventions (read this first)
+# diamo-world — Claude Code guidance (read this first)
 
 A virtual world project written from scratch in C++. **AI writes the code.**
 
-## Maintaining this file
-This file records **only** what is **not** mechanically enforced by configuration **and not**
-already detailed in another document. Do **not** duplicate enforced rules or content covered
-elsewhere — point to the source instead.
+## What belongs in this file
+This file holds **only** guidance that is specific to working on this project through Claude
+Code — instructions that would be meaningless if a person, or a different tool, did the work
+instead. Anything that holds regardless of who or what authors the code — coding style,
+architecture, language, commit format, and the like — is **not** Claude-Code-specific and
+does **not** belong here; it lives in `CONTRIBUTING.md`. Link to it when the agent needs it;
+never restate it. Likewise, never record what is already enforced mechanically (linters,
+build config) or documented elsewhere — point to the source instead.
 
-## State rules generally
-When writing a general rule (in docs, comments, anywhere), keep it general. Don't pin it to
-specific instances — enumerating particular examples makes the rule look limited to those
-cases. State the principle itself; keep any example clearly illustrative, never exhaustive.
-
-## Language policy
-- **All project artifacts are in English**: source, comments, identifiers, commit messages,
-  docs, config. No other language anywhere.
-
-## Core philosophy
-- **Zero third-party code dependencies**: standard library plus the host platform's native
-  APIs (graphics, windowing, input, networking, audio) only; no third-party library is
-  linked into the binaries. The platform boundary is allowed because it is the OS/hardware
-  itself, not someone else's code — but talk to it directly, never through a third-party
-  abstraction layer. (Dev tools — CMake/CTest/clang-tidy/clang-format — are fine.)
-- **Tests use the self-made framework** `Tools/Testing/Framework` — never gtest/Catch2 or
-  another external one. (How to write a test: see `README.md`.)
-
-## Naming — only what the linters cannot enforce
-`.clang-tidy` enforces all identifier **case** rules. The rest, which it cannot check:
-- **Files and directories: PascalCase** (filesystem, not lintable) — e.g. `World.h`,
-  `World/Engine/`.
-- **Avoid abbreviations; spell words out** (`Src` -> `Source`, `mgr` -> `manager`).
-  Dictionary-common abbreviations (`config`, `max`, `min`, `id`) are allowed; ad-hoc
-  shortenings (`usr`, `ctx`, `mgr`) are not.
-- **Part of speech** (a word's meaning, so not lintable):
-  - Functions start with a **verb** (an action): `TickWorld`, `RunAllTests`.
-  - Everything else (types, variables) starts with a **noun**, never a verb: `WorldConfig`,
-    `failCount`.
-
-## Headers / module layout (conventions, not linted)
-- Header extension is **`.h`**.
-- Includes **omit the prefix**: `#include <World.h>` (each library is the sole source).
-- Libraries split into `Public/` (API headers, the only exposed include path) and `Private/`
-  (implementation). Executables have no public API, so `Main.cpp` sits in the module root.
-
-## Build conduct (for AI)
-- **Always build inside Developer PowerShell for VS 2026**; never hardcode absolute paths in
-  CMake — discover tools via environment variables / PATH.
-- **Do not bypass** compiler warnings or linters (e.g. with `NOLINT`, pragmas, or disabling
-  options) — fix the code instead.
+## Project conventions
+All project conventions — language, architecture, naming, headers/layout, build conduct, and
+commit messages — are in [`CONTRIBUTING.md`](CONTRIBUTING.md). They bind the agent exactly as
+they bind a human contributor. Build, test, and run instructions are in
+[`README.md`](README.md).
