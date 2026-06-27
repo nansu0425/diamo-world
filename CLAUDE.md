@@ -17,8 +17,11 @@ cases. State the principle itself; keep any example clearly illustrative, never 
   docs, config. No other language anywhere.
 
 ## Core philosophy
-- **Zero external code dependencies**: standard library only; no third-party library is
-  linked into the binaries. (Dev tools — CMake/CTest/clang-tidy/clang-format — are fine.)
+- **Zero third-party code dependencies**: standard library plus the host platform's native
+  APIs (graphics, windowing, input, networking, audio) only; no third-party library is
+  linked into the binaries. The platform boundary is allowed because it is the OS/hardware
+  itself, not someone else's code — but talk to it directly, never through a third-party
+  abstraction layer. (Dev tools — CMake/CTest/clang-tidy/clang-format — are fine.)
 - **Tests use the self-made framework** `Tools/Testing/Framework` — never gtest/Catch2 or
   another external one. (How to write a test: see `README.md`.)
 
