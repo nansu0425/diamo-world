@@ -1,4 +1,6 @@
 add_library(Engine STATIC
+    Private/Assert.cpp
+    Private/Error.cpp
     Private/Log.cpp
     Private/World.cpp)
 
