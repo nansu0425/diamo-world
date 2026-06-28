@@ -1,5 +1,7 @@
 #include <Log.h>
 
+#include <Assert.h>
+
 #include <array>
 #include <atomic>
 #include <chrono>
@@ -126,6 +128,11 @@ namespace Engine
 
     void LogMessage(LogLevel level, std::source_location location, std::string_view message)
     {
+        // LevelTags/LevelColors are indexed by level; Off (a threshold-only
+        // sentinel) and any out-of-range value would read past them. Guard the
+        // contract at the public entry point, before the level reaches the tables.
+        CHECK_MESSAGE(level >= LogLevel::Trace && level <= LogLevel::Fatal, "LogMessage requires a writable level (Trace..Fatal), not Off");
+
         const auto now = std::chrono::floor<std::chrono::milliseconds>(std::chrono::system_clock::now());
 
         std::string_view file = location.file_name();
