@@ -81,7 +81,9 @@ only commit convention with a grammar a hook can enforce.
 The repo's pre-convention history (the first commits) predates this rule — do not mirror it.
 
 Enforced by the self-made `.githooks/commit-msg` hook (no third-party dependency); it checks
-the structural rules above, the rest hold by convention. Activate it once per clone:
+the structural rules above, the rest hold by convention. CMake activates it during configure
+(`core.hooksPath=.githooks`), so a normal build picks it up with no manual step. To enable it
+without configuring — e.g. before the first build — run once:
 
 ```
 git config core.hooksPath .githooks

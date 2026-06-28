@@ -47,6 +47,22 @@ else()
         "Run inside Developer PowerShell for VS 2026 to enable it.")
 endif()
 
+# --- AI coding harness: enable the repo's git hooks on configure ---------------
+# Point git at .githooks so the commit-msg hook (Conventional Commits) is live for
+# everyone who configures the build — no manual `git config core.hooksPath` per clone.
+# Guarded so a non-git checkout (e.g. a source tarball) configures cleanly.
+find_program(GIT_EXECUTABLE NAMES git)
+if(GIT_EXECUTABLE AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} config core.hooksPath .githooks
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE GIT_HOOKS_RESULT
+        OUTPUT_QUIET ERROR_QUIET)
+    if(GIT_HOOKS_RESULT EQUAL 0)
+        message(STATUS "git hooks enabled (core.hooksPath=.githooks)")
+    endif()
+endif()
+
 add_subdirectory(World/Engine)
 add_subdirectory(World/Server)
 add_subdirectory(World/Client)
