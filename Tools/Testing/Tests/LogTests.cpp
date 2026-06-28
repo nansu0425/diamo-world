@@ -10,17 +10,17 @@
 
 TEST(Log, ThresholdRoundTrips)
 {
-    Engine::SetLogLevel(Engine::LogLevel::Warning);
-    EXPECT_EQUAL(Engine::GetLogLevel(), Engine::LogLevel::Warning);
+    Engine::SetLogLevel(Engine::LogLevel::Warn);
+    EXPECT_EQUAL(Engine::GetLogLevel(), Engine::LogLevel::Warn);
 
     Engine::SetLogLevel(Engine::LogLevel::Info); // restore default
 }
 
 TEST(Log, FilterRespectsThreshold)
 {
-    Engine::SetLogLevel(Engine::LogLevel::Warning);
+    Engine::SetLogLevel(Engine::LogLevel::Warn);
     EXPECT_FALSE(Engine::IsLogLevelEnabled(Engine::LogLevel::Info));
-    EXPECT_TRUE(Engine::IsLogLevelEnabled(Engine::LogLevel::Warning));
+    EXPECT_TRUE(Engine::IsLogLevelEnabled(Engine::LogLevel::Warn));
     EXPECT_TRUE(Engine::IsLogLevelEnabled(Engine::LogLevel::Error));
 
     Engine::SetLogLevel(Engine::LogLevel::Off);

@@ -95,7 +95,7 @@ namespace
 
     // Enables virtual terminal processing once (magic static => thread-safe) and
     // caches whether each stream can render color. stdout and stderr are separate
-    // handles because Warning and above route to stderr.
+    // handles because Warn and above route to stderr.
     const ColorCapability& GetColorCapability()
     {
         static const ColorCapability capability{
@@ -134,9 +134,9 @@ namespace Engine
             file = file.substr(separator + 1);
         }
 
-        // Warning and above are diagnostics: route to stderr (unit-buffered, so
+        // Warn and above are diagnostics: route to stderr (unit-buffered, so
         // not lost on a crash) and keep informational output on stdout.
-        const bool toStderr = (level >= LogLevel::Warning);
+        const bool toStderr = (level >= LogLevel::Warn);
         std::ostream& stream = toStderr ? std::cerr : std::cout;
 
         const ColorCapability& capability = GetColorCapability();

@@ -14,7 +14,7 @@ namespace Engine
         Trace = 0,
         Debug = 1,
         Info = 2,
-        Warning = 3,
+        Warn = 3,
         Error = 4,
         Fatal = 5,
         Off = 6,
@@ -68,6 +68,6 @@ namespace Engine
 #define LOG_TRACE(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Trace, __VA_ARGS__)
 #define LOG_DEBUG(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Debug, __VA_ARGS__)
 #define LOG_INFO(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Info, __VA_ARGS__)
-#define LOG_WARNING(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Warning, __VA_ARGS__)
+#define LOG_WARN(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Warn, __VA_ARGS__)
 #define LOG_ERROR(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Error, __VA_ARGS__)
 #define LOG_FATAL(...) ENGINE_LOG_IMPL(::Engine::LogLevel::Fatal, __VA_ARGS__)
