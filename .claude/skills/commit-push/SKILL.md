@@ -70,7 +70,11 @@ Only after explicit approval:
 
 1. For each planned commit, in order: make sure exactly its files are staged, then commit.
    Write the message to a temporary file and use `git commit -F <file>` so multi-line bodies
-   are preserved verbatim. Do not pass the message inline.
+   are preserved verbatim. Do not pass the message inline. Write the file as **UTF-8 without
+   a BOM** — a BOM lands before the subject's first byte and makes the `.githooks/commit-msg`
+   regex reject the subject. Windows PowerShell 5.1's `Set-Content -Encoding utf8` emits a
+   BOM, so do not use it; write the bytes explicitly, e.g.
+   `[System.IO.File]::WriteAllText($path, $message, (New-Object System.Text.UTF8Encoding($false)))`.
 2. After all commits are made, push once: `git push`. If the branch has no upstream, use
    `git push -u origin <current-branch>`.
 3. Never force-push and never rewrite already-pushed history.
