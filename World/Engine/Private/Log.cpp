@@ -49,14 +49,15 @@ namespace
 
     // ANSI SGR foreground colors per level, indexed like LevelTags. The level tag
     // carries the severity signal, so it gets the color; the message body stays
-    // default. Fatal is bold red to stand apart from a plain Error.
+    // default. Fatal is plain red and Error bold red: the heavier-looking plain
+    // red marks the most severe level.
     constexpr std::array<std::string_view, 6> LevelColors = {
-        "\x1b[90m",   // Trace   - bright black (gray)
+        "\x1b[35m",   // Trace   - magenta
         "\x1b[36m",   // Debug   - cyan
         "\x1b[32m",   // Info    - green
-        "\x1b[33m",   // Warning - yellow
-        "\x1b[31m",   // Error   - red
-        "\x1b[1;31m", // Fatal   - bold red
+        "\x1b[33m",   // Warn    - yellow
+        "\x1b[1;31m", // Error   - bold red
+        "\x1b[31m",   // Fatal   - red
     };
 
     std::string_view GetLevelColor(Engine::LogLevel level) noexcept
