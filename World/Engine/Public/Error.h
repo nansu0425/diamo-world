@@ -38,7 +38,7 @@ namespace Engine
     // A failure: a code plus an optional context message.
     class Error
     {
-      public:
+    public:
         Error() = default;
         explicit Error(ErrorCode code) : code_{code} {}
         Error(ErrorCode code, std::string message) : code_{code}, message_{std::move(message)} {}
@@ -59,7 +59,7 @@ namespace Engine
             return message_.empty() ? DescribeErrorCode(code_) : std::string_view{message_};
         }
 
-      private:
+    private:
         ErrorCode code_ = ErrorCode::None;
         std::string message_;
     };
@@ -78,7 +78,7 @@ namespace Engine
     template <typename T>
     class Result
     {
-      public:
+    public:
         Result(const T& value) : storage_{value} {}
         Result(T&& value) : storage_{std::move(value)} {}
 
@@ -129,7 +129,7 @@ namespace Engine
             return IsOk() ? std::get<T>(storage_) : fallback;
         }
 
-      private:
+    private:
         std::variant<T, Error> storage_;
     };
 
@@ -137,7 +137,7 @@ namespace Engine
     template <>
     class Result<void>
     {
-      public:
+    public:
         Result() = default; // ok
         Result(Error error) : error_{std::move(error)} {}
         Result(ErrorTag, ErrorCode code) : error_{Error{code}} {}
@@ -158,7 +158,7 @@ namespace Engine
             return *error_;
         }
 
-      private:
+    private:
         std::optional<Error> error_;
     };
 
