@@ -61,6 +61,37 @@ that work. The dependency rule follows that split.
 - **Do not bypass** compiler warnings or linters (e.g. with `NOLINT`, pragmas, or disabling
   options) — fix the code instead.
 
+## Error handling
+World is exception-free: do not use C++ exceptions for control flow. Engine's
+error system (`Assert.h`, `Error.h`) is the standard toolkit, and new systems
+should adopt it from the start rather than inventing ad-hoc sentinels or
+logging-and-continuing.
+- **Programming errors / invariants → assertions.** Validate what correct code
+  must guarantee. `CHECK_*` stays in every build (guard invariants that must hold
+  in release, especially at public API boundaries and on external input);
+  `ASSERT_*` is debug-only for internal sanity with no release cost. A failed
+  assertion reports and aborts — use it where continuing would mean running on
+  corrupt state.
+- **Recoverable / expected failures → `Result<T>`.** Return a `Result` carrying
+  an `Error` (a code plus an optional message) and let the caller decide, instead
+  of returning a sentinel value or only logging.
+- The error system depends on nothing else, so any system may use it freely.
+
+The standard library is exception-based. Rather than disable that, handle it at
+our boundary so the rules above still hold:
+- **Prefer the non-throwing API.** Where the standard library offers a
+  non-throwing form, use it and translate the outcome into the model above — an
+  `std::error_code` overload or a checked parse becomes a `Result`; a misuse that
+  would otherwise throw (out-of-bounds, wrong variant alternative, empty optional)
+  is prevented with a `CHECK` rather than left to the throwing accessor.
+- **Let the unrecoverable terminate.** A genuinely unrecoverable failure (e.g. an
+  exhausted allocation) is allowed to propagate to `std::terminate`. A single
+  process-wide terminate handler turns that into a Fatal diagnostic and aborts,
+  consistent with a failed assertion.
+- **Never catch.** World is catch-free: even the terminate handler reports and
+  aborts without catching. This is not only convention — clang-tidy parses World
+  with exceptions disabled, so a stray `try`/`catch` fails the build.
+
 ## Commit messages
 Use **Conventional Commits**. It is chosen for AI-agent-written history: the format is one
 models reproduce consistently, it is machine-readable for tooling and for a future agent
