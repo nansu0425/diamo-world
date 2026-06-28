@@ -5,7 +5,8 @@ add_executable(EngineTests
     Tests/EngineTests.cpp
     Tests/LogTests.cpp
     Tests/ErrorTests.cpp
-    Tests/AssertTests.cpp)
+    Tests/AssertTests.cpp
+    Tests/ClockTests.cpp)
 
 target_link_libraries(EngineTests PRIVATE TestingFramework Engine)
 
