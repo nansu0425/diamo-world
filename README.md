@@ -9,10 +9,12 @@ never reach the world's binaries.
 
 - **Visual Studio 2026 (= version 18)** — bundles MSVC, CMake, Ninja, clang-tidy and
   clang-format
-- Builds must run inside **Developer PowerShell for VS 2026** (`cl`/`cmake`/`ninja` on PATH,
-  `VCINSTALLDIR` set)
+- The build needs the **VS Developer environment** (`cl`/`cmake`/`ninja` on PATH,
+  `VCINSTALLDIR` set). `Build.ps1` (below) sets this up automatically, so you can run it from
+  any shell; the manual route is **Developer PowerShell for VS 2026**.
 
-No separate system-wide install of the tools is needed. Enter the Developer Shell with:
+No separate system-wide install of the tools is needed. Enter the Developer Shell manually
+with:
 
 ```powershell
 & "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\Launch-VsDevShell.ps1"
@@ -25,7 +27,18 @@ No separate system-wide install of the tools is needed. Enter the Developer Shel
 
 ## Build / test / run
 
-Inside Developer PowerShell, from the project root:
+From the project root, in **any** shell — `Build.ps1` bootstraps the VS Developer environment
+(via `vswhere`) before building, so you don't have to be in a Developer Shell:
+
+```powershell
+./Build.ps1                 # configure (if needed) + build Debug
+./Build.ps1 release         # build Release
+./Build.ps1 debug -Test     # build + run tests
+./Build.ps1 -Reconfigure    # force a fresh configure
+```
+
+Under the hood it runs the cmake/ctest presets. If you are **already** inside Developer
+PowerShell you can call them directly:
 
 ```powershell
 cmake --preset ninja-msvc          # configure (Ninja Multi-Config, generates compile_commands.json)
