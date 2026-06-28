@@ -1,11 +1,10 @@
+#include <Log.h>
 #include <World.h>
-
-#include <iostream>
 
 int main()
 {
     int tick = Engine::TickWorld(0);
 
-    std::cout << "Client: connected to world at tick " << tick << "\n";
+    LOG_INFO("Client: connected to world at tick {}", tick);
     return 0;
 }

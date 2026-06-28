@@ -1,4 +1,5 @@
 add_library(Engine STATIC
+    Private/Log.cpp
     Private/World.cpp)
 
 target_include_directories(Engine

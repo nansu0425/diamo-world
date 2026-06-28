@@ -1,13 +1,12 @@
+#include <Log.h>
 #include <World.h>
-
-#include <iostream>
 
 int main()
 {
     Engine::WorldConfig config;
     int tick = Engine::TickWorld(0);
 
-    std::cout << "Server: world advanced to tick " << tick << " (maxPlayers=" << config.maxPlayers << ", tickRate=" << config.tickRate << ")\n";
+    LOG_INFO("Server: world advanced to tick {} (maxPlayers={}, tickRate={})", tick, config.maxPlayers, config.tickRate);
 
     return 0;
 }

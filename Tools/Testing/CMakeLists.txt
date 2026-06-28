@@ -2,7 +2,8 @@ add_subdirectory(Framework)
 
 # Test executable — links TestingFramework (runner + main) and the unit under test (Engine).
 add_executable(EngineTests
-    Tests/EngineTests.cpp)
+    Tests/EngineTests.cpp
+    Tests/LogTests.cpp)
 
 target_link_libraries(EngineTests PRIVATE TestingFramework Engine)
 
