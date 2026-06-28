@@ -155,9 +155,9 @@ namespace Engine
         {
             // Color the level tag by severity; dim the timestamp and call site so
             // the default-color message body stands out. Each region is reset.
-            constexpr std::string_view Dim = "\x1b[2m";
-            constexpr std::string_view Reset = "\x1b[0m";
-            line = std::format("{0}[{1:%H:%M:%S}]{2} [{3}{4}{2}] {5} {0}({6}:{7}){2}", Dim, now, Reset,
+            constexpr std::string_view dim = "\x1b[2m";
+            constexpr std::string_view reset = "\x1b[0m";
+            line = std::format("{0}[{1:%H:%M:%S}]{2} [{3}{4}{2}] {5} {0}({6}:{7}){2}", dim, now, reset,
                                GetLevelColor(level), GetLevelTag(level), message, file, location.line());
         }
         else

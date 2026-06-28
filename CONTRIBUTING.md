@@ -48,6 +48,12 @@ that work. The dependency rule follows that split.
   - Functions start with a **verb** (an action): `TickWorld`, `RunAllTests`.
   - Everything else (types, variables) starts with a **noun**, never a verb: `WorldConfig`,
     `failCount`.
+- **Program-scope compile-time constants go in an anonymous namespace, not behind the
+  `static` keyword.** The case split is: program-scope constants (namespace/global/
+  class-static) are PascalCase; everything inside a function (locals, and function-`static`)
+  is camelCase. clang-tidy classifies a file-scope `static` constant the same as a
+  function-`static` one, so `static constexpr Foo` at file scope gets forced to camelCase —
+  declare it in an anonymous namespace instead and it reads as a global constant (PascalCase).
 
 ## Headers / module layout
 - Header extension is **`.h`**.

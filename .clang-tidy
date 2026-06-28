@@ -18,7 +18,8 @@ CheckOptions:
   - { key: readability-identifier-naming.FunctionCase,          value: CamelCase }
   - { key: readability-identifier-naming.MethodCase,            value: CamelCase }
 
-  # Runtime values — mutable variables AND runtime const -> camelCase
+  # Variables -> camelCase. Mutable variables, parameters, members, and ANYTHING local
+  # (runtime or compile-time) stay camelCase.
   - { key: readability-identifier-naming.VariableCase,          value: camelBack }
   - { key: readability-identifier-naming.LocalVariableCase,     value: camelBack }
   - { key: readability-identifier-naming.ParameterCase,         value: camelBack }
@@ -26,15 +27,30 @@ CheckOptions:
   - { key: readability-identifier-naming.StaticVariableCase,    value: camelBack }
   - { key: readability-identifier-naming.MemberCase,            value: camelBack }
   - { key: readability-identifier-naming.ClassMemberCase,       value: camelBack }
-  - { key: readability-identifier-naming.GlobalConstantCase,    value: camelBack }
-  - { key: readability-identifier-naming.LocalConstantCase,     value: camelBack }
-  - { key: readability-identifier-naming.StaticConstantCase,    value: camelBack }
-  - { key: readability-identifier-naming.ClassConstantCase,     value: camelBack }
   - { key: readability-identifier-naming.PrivateMemberSuffix,   value: '_' }
   - { key: readability-identifier-naming.ProtectedMemberSuffix, value: '_' }
 
-  # Compile-time constants (constexpr, enum values) -> PascalCase
-  - { key: readability-identifier-naming.ConstexprVariableCase, value: CamelCase }
+  # Constants. The split we want: a compile-time constant visible at program scope
+  # (namespace/global/class-static) -> PascalCase; everything inside a function -> camelCase.
+  #
+  # clang-tidy cannot key on constexpr per storage: ConstexprVariableCase, if set, applies
+  # to ALL constexpr regardless of storage. So we deliberately DO NOT set it and let each
+  # constexpr fall back to its storage-scoped *Constant rule below.
+  #   - Local/Static -> camelBack: a function-local constant is camelCase. A function-static
+  #     (magic static, e.g. Log.cpp's `capability`) is StaticConstant, not LocalConstant —
+  #     it is still "inside a function", so camelCase too. This also means a file-scope
+  #     `static` const is camelCase: for a program-scope compile-time constant use an
+  #     anonymous namespace (-> GlobalConstant -> PascalCase), not the `static` keyword.
+  #   - Global/Class -> CamelCase: namespace/global (incl. anonymous namespace) and
+  #     class-static constants are PascalCase. Trade-off: these also catch a runtime const
+  #     at the same scope and force it PascalCase — accepted; program-scope runtime const is
+  #     virtually absent (compile-time constants there are constexpr).
+  - { key: readability-identifier-naming.LocalConstantCase,     value: camelBack }
+  - { key: readability-identifier-naming.StaticConstantCase,    value: camelBack }
+  - { key: readability-identifier-naming.GlobalConstantCase,    value: CamelCase }
+  - { key: readability-identifier-naming.ClassConstantCase,     value: CamelCase }
+
+  # enum values (a separate option, no storage ambiguity) -> PascalCase
   - { key: readability-identifier-naming.EnumConstantCase,      value: CamelCase }
   - { key: readability-identifier-naming.ScopedEnumConstantCase, value: CamelCase }
 
