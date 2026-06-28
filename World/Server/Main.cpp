@@ -1,8 +1,11 @@
+#include <Assert.h>
 #include <Log.h>
 #include <World.h>
 
 int main()
 {
+    Engine::InstallTerminateHandler();
+
     Engine::WorldConfig config;
     int tick = Engine::TickWorld(0);
 
