@@ -31,15 +31,15 @@ namespace
         return mutex;
     }
 
-    // Fixed-width tags so the level column aligns. Indexed by LogLevel value;
-    // the Off sentinel is a threshold only and never reaches this table.
+    // Level tags at natural width. Indexed by LogLevel value; the Off sentinel is
+    // a threshold only and never reaches this table.
     constexpr std::array<std::string_view, 6> LevelTags = {
-        "TRACE  ",
-        "DEBUG  ",
-        "INFO   ",
-        "WARNING",
-        "ERROR  ",
-        "FATAL  ",
+        "TRACE",
+        "DEBUG",
+        "INFO",
+        "WARN",
+        "ERROR",
+        "FATAL",
     };
 
     std::string_view GetLevelTag(Engine::LogLevel level) noexcept
