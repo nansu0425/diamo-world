@@ -18,13 +18,23 @@ cases. State the principle itself; keep any example clearly illustrative, never 
   docs, config. No other language anywhere.
 
 ## Core philosophy
-- **Zero third-party code dependencies**: standard library plus the host platform's native
-  APIs (graphics, windowing, input, networking, audio) only; no third-party library is
-  linked into the binaries. The platform boundary is allowed because it is the OS/hardware
-  itself, not someone else's code — but talk to it directly, never through a third-party
-  abstraction layer. (Dev tools — CMake/CTest/clang-tidy/clang-format — are fine.)
-- **Tests use the self-made framework** `Tools/Testing/Framework` — never gtest/Catch2 or
-  another external one. (How to write a test: see `README.md`.)
+The thing built from scratch is **World** (`World/` — the engine, server, and client).
+**Tools** (`Tools/` — tooling to develop World: testing, profiling, debugging) merely serve
+that work. The dependency rule follows that split.
+- **World is zero third-party**: World's source and binaries (Engine/Server/Client) use the
+  standard library plus the host platform's native APIs (graphics, windowing, input,
+  networking, audio) only — no third-party code appears in World's source, and no third-party
+  library is linked into World's binaries. The platform boundary is allowed because it is the
+  OS/hardware itself, not someone else's code — but talk to it directly, never through a
+  third-party abstraction layer.
+- **Tools may use third-party**: development tooling is free to pull in third-party tools and
+  libraries, provided they never reach World. The boundary: a tool's third-party code is not
+  linked into any World binary, and a tool touches World only across its public API (e.g.
+  `#include <World.h>`, the way the test executable does) — adopting a tool never means
+  editing World's source to accommodate it. (Dev tools the build itself relies on —
+  CMake/CTest/clang-tidy/clang-format — are likewise fine.) The test framework under
+  `Tools/Testing/Framework` is self-made today, but that is its current state, not a mandate.
+  (How to write a test: see `README.md`.)
 
 ## Naming — only what the linters cannot enforce
 `.clang-tidy` enforces all identifier **case** rules. The rest, which it cannot check:

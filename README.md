@@ -1,7 +1,9 @@
 # diamo-world
 
-A virtual world project built from scratch in C++. It builds a server, a client, and a
-shared engine with no external code dependencies (standard library only).
+A virtual world project built from scratch in C++. The world itself — the server, client, and
+shared engine — has no external code dependencies (standard library plus host platform native
+APIs only). The development tooling under `Tools/` may use third-party tools, as long as they
+never reach the world's binaries.
 
 ## Requirements
 
@@ -48,9 +50,9 @@ World/                  the virtual world itself
     Public/             public API headers  -> #include <World.h>
     Private/            internal implementation
   Server/  Client/      executables (link Engine)
-Tools/                  development tooling
+Tools/                  development tooling (may use third-party tools)
   Testing/
-    Framework/          self-made test framework (zero external deps)
+    Framework/          test framework (self-made today; external is allowed)
     Tests/              actual tests (registered with CTest)
 CMake/                  CMake helper modules
 ```
