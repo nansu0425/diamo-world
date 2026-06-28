@@ -1,8 +1,10 @@
 add_library(Engine STATIC
+    Private/Application.cpp
     Private/Assert.cpp
     Private/Clock.cpp
     Private/Error.cpp
     Private/Log.cpp
+    Private/Shutdown.cpp
     Private/World.cpp)
 
 target_include_directories(Engine
